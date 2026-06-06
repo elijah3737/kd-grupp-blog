@@ -257,3 +257,9 @@ img{max-width:100%;height:auto;display:block}
 /* скрытие карточек при фильтрации по чипам */
 .card.is-hidden,.featured.is-hidden{display:none}
 .empty-note{padding:40px 0;color:var(--ink-soft);font-size:16px;font-weight:600}
+
+/* ===== Фикс мобильного меню: бургер виден во всём mobile-диапазоне темы ===== */
+@media(max-width:991.98px){
+  .header .burger{display:flex !important;margin-left:auto}
+  .header__search{display:none}
+}
