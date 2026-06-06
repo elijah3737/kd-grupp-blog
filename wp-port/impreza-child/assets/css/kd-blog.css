@@ -186,3 +186,6 @@
   .kd-blog .card-grid{grid-template-columns:1fr}
   .kd-blog .cta-band .container{flex-direction:column;align-items:flex-start}
 }
+
+/* скрыть родной заголовок Impreza на одиночных записях (используем свой article-head) */
+body.single-post h1.entry-title{display:none!important}
