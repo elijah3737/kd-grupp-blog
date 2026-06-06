@@ -256,3 +256,4 @@ img{max-width:100%;height:auto;display:block}
 .prose h2 b,.prose h3 b{font-weight:inherit}
 /* скрытие карточек при фильтрации по чипам */
 .card.is-hidden,.featured.is-hidden{display:none}
+.empty-note{padding:40px 0;color:var(--ink-soft);font-size:16px;font-weight:600}
