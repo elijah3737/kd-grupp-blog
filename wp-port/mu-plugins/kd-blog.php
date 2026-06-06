@@ -154,12 +154,9 @@ function kd_single_content($content){
 
   $hero = kd_hero_html($id);
   $body = '<article class="article-wrap prose">'.$content.'</article>';
-  $cta  = '<section class="cta-band"><div class="container"><div>'
-        . '<h3>Нужна запчасть или восстановление узла?</h3>'
-        . '<p>Подберём деталь по фото и артикулу, оценим ремонтопригодность. Работаем по всей России.</p>'
-        . '</div><a class="btn" href="tel:88005057232">Получить консультацию</a></div></section>';
+  // CTA-плашку в статьях не показываем (по запросу клиента)
 
-  return '<div class="kd-blog kd-blog--single">'.$head.$hero.$body.$cta.kd_related_html($id).'</div>';
+  return '<div class="kd-blog kd-blog--single">'.$head.$hero.$body.kd_related_html($id).'</div>';
 }
 add_filter('the_content', 'kd_single_content', 20);
 

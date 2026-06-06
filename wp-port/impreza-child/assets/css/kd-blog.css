@@ -189,3 +189,15 @@
 
 /* скрыть родной заголовок Impreza на одиночных записях (используем свой article-head) */
 body.single-post h1.entry-title{display:none!important}
+
+/* ===== Фиксы под Impreza: секции на всю ширину + отступ ленты под фикс-шапку ===== */
+/* full-bleed: page-head / article-head / cta-band на всю ширину окна (как на GitHub),
+   вырываемся из контейнера Impreza (.l-section padding 40px, max-width 1360). body уже overflow-x:hidden. */
+.kd-blog .page-head,.kd-blog .article-head,.kd-blog .cta-band{
+  width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+}
+/* лента: свой шаблон не наследует отступ .l-main под фикс-шапку (161px) —
+   зелёный hero уходит под шапку, контент сдвигаем ниже. */
+.kd-blog .page-head{padding-top:161px}
+@media(max-width:991.98px){.kd-blog .page-head{padding-top:120px}}
+@media(max-width:600px){.kd-blog .page-head{padding-top:100px}}
