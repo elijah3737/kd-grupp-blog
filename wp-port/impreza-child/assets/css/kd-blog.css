@@ -1,0 +1,188 @@
+/* ============================================================
+   КД-Групп — блог в WordPress (дочерняя тема Impreza-child).
+   Портировано из ~/Claude/kd-grupp-blog/assets/style.css.
+   ВСЁ заскоупено под .kd-blog — остальной сайт не затрагивается.
+   Выкинуто: гард-хаки header/footer, глобальный reset *{}, глобальный body{}.
+   Грузится ПОСЛЕ основного CSS темы (см. enqueue в mu-plugins/kd-blog.php).
+   ============================================================ */
+
+.kd-blog{
+  /* токены дизайна (снято с kd-grupp.com) */
+  --soft-green:radial-gradient(circle at 92% 8%,rgba(4,224,97,.22),transparent 42%),#e7f3eb;
+  --green-900:#00552f;
+  --green-800:#065b35;
+  --green-700:#2e673f;
+  --green-600:#36895f;
+  --green-accent:#04e061;
+  --grad:linear-gradient(36deg,#36895f 0%,#00552f 100%);
+  --ink:#161616;
+  --ink-soft:#5a635d;
+  --bg:#ffffff;
+  --bg-soft:#f4f6f5;
+  --bg-soft2:#f3f3f3;
+  --border:#e4e7e5;
+  --radius:14px;
+  --radius-sm:10px;
+  --shadow:0 18px 44px -22px rgba(0,85,47,.30);
+  --shadow-sm:0 8px 22px -16px rgba(0,85,47,.4);
+  --maxw:1200px;
+  --font:'Manrope',-apple-system,Segoe UI,sans-serif;
+  font-family:var(--font);
+  color:var(--ink);
+}
+.kd-blog *{box-sizing:border-box}
+.kd-blog h1,.kd-blog h2,.kd-blog h3,.kd-blog h4,.kd-blog h5{
+  font-family:var(--font);font-weight:800;line-height:1.2;color:var(--ink);letter-spacing:-.01em;
+}
+.kd-blog a{color:inherit;text-decoration:none}
+.kd-blog img{max-width:100%;height:auto;display:block}
+.kd-blog .container{max-width:82.5rem;box-sizing:content-box;margin:0 auto;padding:0 .9375rem}
+
+/* ===== Кнопки ===== */
+.kd-blog .btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;
+  padding:16px 30px;border-radius:40px;border:0;cursor:pointer;line-height:1;
+  background:var(--grad);color:#fff;outline:1px solid transparent;
+  box-shadow:0 2px 10px 0 rgba(54,137,95,.1);
+  transition:color .2s linear,background .2s linear,outline-color .2s linear,transform .2s ease;
+}
+.kd-blog .btn:hover{background:#fff;color:var(--green-600);outline-color:var(--green-600);transform:translateY(-1px)}
+.kd-blog .btn-sm{padding:12px 22px;font-size:13px}
+
+/* ===== Хлебные крошки ===== */
+.kd-blog .crumbs{padding:18px 0;font-size:13px;color:var(--ink-soft)}
+.kd-blog .crumbs a:hover{color:var(--green-700)}
+.kd-blog .crumbs .sep{margin:0 8px;color:var(--border)}
+
+/* ===== Hero раздела (лента) ===== */
+.kd-blog .page-head{background:var(--grad);color:#fff;position:relative;overflow:hidden}
+.kd-blog .page-head::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 90% 20%,rgba(4,224,97,.20),transparent 44%),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.045) 0 2px,transparent 2px 26px);
+  pointer-events:none;
+}
+.kd-blog .page-head .container{position:relative;padding:34px 24px 38px}
+.kd-blog .page-head .eyebrow{font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--green-accent);margin-bottom:10px}
+.kd-blog .page-head h1{font-size:clamp(26px,3.4vw,40px);color:#fff;max-width:840px;letter-spacing:-.02em;text-align:left}
+.kd-blog .page-head p{margin-top:12px;max-width:640px;font-size:16px;opacity:.92;line-height:1.5}
+
+/* ===== Фильтр-чипы ===== */
+.kd-blog .section{padding:48px 0}
+.kd-blog .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.kd-blog .chip{
+  padding:9px 18px;border-radius:40px;font-size:14px;font-weight:700;cursor:pointer;
+  background:var(--bg-soft);color:var(--ink);border:1px solid transparent;transition:.2s;text-align:left;
+}
+.kd-blog .chip:hover{border-color:var(--green-600);color:var(--green-700)}
+.kd-blog .chip.active{background:var(--grad);color:#fff}
+
+/* ===== Featured ===== */
+.kd-blog .featured{
+  display:grid;grid-template-columns:1.1fr 1fr;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--border);background:var(--bg-soft);margin-bottom:40px;box-shadow:var(--shadow)
+}
+.kd-blog .featured .ph{min-height:200px;position:relative}
+.kd-blog .featured .ph .ph-ico{font-size:30px}
+.kd-blog .featured .body{padding:26px 30px}
+.kd-blog .featured h2{font-size:22px;margin:10px 0 10px;line-height:1.25;text-align:left}
+.kd-blog .featured p{color:var(--ink-soft);margin-bottom:18px;font-size:14.5px}
+.kd-blog .featured .btn{padding:12px 24px;font-size:13px}
+
+/* ===== Сетка карточек ===== */
+.kd-blog .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.kd-blog .card{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;transition:.25s ease;margin:0;
+}
+.kd-blog .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:transparent}
+.kd-blog .card .ph{height:190px;position:relative}
+.kd-blog .card .body{padding:24px;display:flex;flex-direction:column;flex:1}
+.kd-blog .card h3{font-size:19px;margin:12px 0 10px;line-height:1.3;text-align:left}
+.kd-blog .card p{color:var(--ink-soft);font-size:14.5px;flex:1}
+.kd-blog .card .more{margin-top:18px;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--green-700);display:inline-flex;gap:6px;transition:.2s}
+.kd-blog .card:hover .more{gap:12px}
+
+/* ===== Плейсхолдеры изображений ===== */
+.kd-blog .ph{position:relative;background:radial-gradient(circle at 30% 28%,rgba(4,224,97,.16),transparent 55%),linear-gradient(140deg,var(--green-800),var(--green-600));display:flex;overflow:hidden}
+.kd-blog .ph .ph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.kd-blog .ph::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 3px,transparent 3px 16px)}
+.kd-blog .ph .ph-ico{position:relative;margin:auto;font-weight:800;font-size:40px;color:rgba(255,255,255,.85);letter-spacing:.02em}
+
+/* ===== Теги/бейджи ===== */
+.kd-blog .tag{display:inline-block;font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:6px 13px;border-radius:40px;background:rgba(0,85,47,.08);color:var(--green-900)}
+.kd-blog .tag.alt{background:rgba(4,224,97,.16);color:var(--green-800)}
+.kd-blog .tag.on-img{position:absolute;top:16px;left:16px;background:#fff;box-shadow:var(--shadow-sm);z-index:2}
+.kd-blog .meta{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--ink-soft);font-weight:600}
+.kd-blog .meta .dot{width:4px;height:4px;border-radius:50%;background:var(--border)}
+
+/* ===== Страница статьи ===== */
+.kd-blog .article-head{background:var(--soft-green);border-bottom:1px solid var(--border)}
+.kd-blog .article-head .container{padding:40px 24px 44px;max-width:820px}
+.kd-blog .article-head h1{font-size:clamp(28px,3.6vw,42px);margin:16px 0 20px;line-height:1.2;text-align:left}
+.kd-blog .article-head .meta{font-size:13px}
+.kd-blog .article-head .meta a{color:var(--green-700);font-weight:800}
+.kd-blog .article-wrap{max-width:710px;margin:0 auto;padding:52px 24px}
+.kd-blog .article-hero{max-width:980px;margin:-30px auto 0;border-radius:var(--radius);overflow:hidden;height:300px;position:relative;box-shadow:var(--shadow);border:1px solid var(--border)}
+.kd-blog .article-hero img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ===== Типографика тела (.prose) ===== */
+.kd-blog .prose{font-size:17.5px;line-height:1.75;color:#222b26}
+.kd-blog .prose>*+*{margin-top:22px}
+.kd-blog .prose h2{font-size:27px;margin-top:44px;color:var(--ink);text-align:left}
+.kd-blog .prose h3{font-size:21px;margin-top:34px;color:var(--ink);text-align:left}
+.kd-blog .prose h4{font-size:19px;margin-top:30px;color:var(--ink);font-weight:800}
+.kd-blog .prose p{color:#2b352f}
+.kd-blog .prose b,.kd-blog .prose strong{font-weight:800;color:var(--ink)}
+.kd-blog .prose h2 b,.kd-blog .prose h3 b{font-weight:inherit}
+.kd-blog .prose ul,.kd-blog .prose ol{padding-left:24px;display:flex;flex-direction:column;gap:10px}
+.kd-blog .prose li::marker{color:var(--green-600)}
+.kd-blog .prose a{color:var(--green-700);text-decoration:underline;text-underline-offset:3px}
+.kd-blog .prose blockquote{border-left:4px solid var(--green-accent);background:var(--bg-soft);padding:22px 28px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:19px;font-weight:700;color:var(--green-900);line-height:1.4}
+.kd-blog .prose figure{margin:34px 0}
+.kd-blog .prose figure img{border-radius:var(--radius)}
+.kd-blog .prose figcaption{margin-top:10px;font-size:13.5px;color:var(--ink-soft);text-align:center}
+.kd-blog .prose img{border-radius:var(--radius)}
+.kd-blog .spec-table,.kd-blog .prose table{width:100%;border-collapse:collapse;font-size:15.5px}
+.kd-blog .spec-table th,.kd-blog .spec-table td,.kd-blog .prose th,.kd-blog .prose td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--border)}
+.kd-blog .spec-table th,.kd-blog .prose th{background:var(--green-900);color:#fff;font-weight:700}
+.kd-blog .spec-table tr:nth-child(even) td,.kd-blog .prose tr:nth-child(even) td{background:var(--bg-soft)}
+
+/* ===== CTA-баннер ===== */
+.kd-blog .cta-band{background:var(--grad);color:#fff;position:relative;overflow:hidden}
+.kd-blog .cta-band::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 50%,rgba(4,224,97,.18),transparent 45%)}
+.kd-blog .cta-band .container{position:relative;padding:48px 24px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.kd-blog .cta-band h3{font-size:28px;color:#fff;text-align:left}
+.kd-blog .cta-band p{opacity:.9;margin-top:8px}
+.kd-blog .cta-band .btn{background:#fff;color:var(--green-700)}
+.kd-blog .cta-band .btn:hover{background:rgba(255,255,255,.85);outline-color:#fff}
+
+/* ===== «Читайте также» ===== */
+.kd-blog .related{padding:56px 24px}
+.kd-blog .related h2{font-size:25px;margin-bottom:26px;text-align:left}
+
+/* ===== Появление ===== */
+@media (prefers-reduced-motion:no-preference){
+  .kd-blog .reveal{opacity:0;transform:translateY(18px);animation:kd-rise .6s ease forwards}
+  @keyframes kd-rise{to{opacity:1;transform:none}}
+  .kd-blog .d1{animation-delay:.04s}.kd-blog .d2{animation-delay:.11s}.kd-blog .d3{animation-delay:.18s}
+}
+
+/* ===== Фильтрация / пустое состояние ===== */
+.kd-blog .card.is-hidden,.kd-blog .featured.is-hidden{display:none}
+.kd-blog .empty-note{padding:40px 0;color:var(--ink-soft);font-size:16px;font-weight:600}
+
+/* ===== Адаптив ===== */
+@media(max-width:1080px){
+  .kd-blog .card-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:920px){
+  .kd-blog .featured{grid-template-columns:1fr}
+  .kd-blog .featured .ph{min-height:210px}
+}
+@media(max-width:620px){
+  .kd-blog .card-grid{grid-template-columns:1fr}
+  .kd-blog .cta-band .container{flex-direction:column;align-items:flex-start}
+}
