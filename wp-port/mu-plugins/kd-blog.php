@@ -141,6 +141,9 @@ function kd_single_content($content){
   $chip     = kd_post_chip($id);
   $blog_url = get_permalink(KD_BLOG_PAGE_ID);
 
+  // убрать встроенную в тело CTA-плашку (по запросу клиента)
+  $content = preg_replace('#<section[^>]*class="[^"]*cta-band[^"]*"[^>]*>.*?</section>#is', '', $content);
+
   $head = '<div class="article-head"><div class="container">'
         . '<div class="crumbs reveal d1" style="padding:0 0 6px">'
         . '<a href="'.esc_url(home_url('/')).'">Главная</a><span class="sep">/</span>'
