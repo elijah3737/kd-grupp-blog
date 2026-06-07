@@ -142,7 +142,7 @@ add_action('wp_head', function () { ?>
 add_action('wp_footer', function () { ?>
 <script id="kd-a11y">
 (function(){function L(e,t){if(e&&!e.getAttribute('aria-label')&&!e.getAttribute('title')&&!(e.textContent||'').trim())e.setAttribute('aria-label',t);}
-document.addEventListener('DOMContentLoaded',function(){
+function run(){
  document.querySelectorAll('a').forEach(function(a){
   if(a.getAttribute('aria-label')||a.getAttribute('title'))return;
   var t=(a.textContent||'').trim(),im=a.querySelector('img[alt]');
@@ -159,6 +159,9 @@ document.addEventListener('DOMContentLoaded',function(){
  L(document.querySelector('.burger'),'Меню');L(document.querySelector('#searchsubmit'),'Искать');
  document.querySelectorAll('button').forEach(function(b){if(!b.getAttribute('aria-label')&&!(b.textContent||'').trim()&&!b.getAttribute('title'))b.setAttribute('aria-label','Кнопка');});
  document.querySelectorAll('img:not([alt])').forEach(function(i){i.setAttribute('alt','');i.setAttribute('role','presentation');});
-});})();
+}
+if(document.readyState!=='loading')run();else document.addEventListener('DOMContentLoaded',run);
+window.addEventListener('load',run);setTimeout(run,1500);setTimeout(run,3500);
+})();
 </script>
 <?php }, 20);
