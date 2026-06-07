@@ -165,3 +165,64 @@ window.addEventListener('load',run);setTimeout(run,1500);setTimeout(run,3500);
 })();
 </script>
 <?php }, 20);
+
+/* ============================================================
+ * Дубли мета товаров: уникализация title/description через артикул (SKU).
+ * Каталог содержит много одноимённых позиций («Ролик», «Подшипник» и т.п.),
+ * различающихся только SKU → шаблонная мета давала байт-в-байт дубли
+ * (351 title / 643 description в Яндекс.Вебмастере). У товаров есть уникальный SKU.
+ * Ручную мету Yoast (если задана у товара) не трогаем.
+ * ============================================================ */
+function kd_seo_product_bits() {
+    static $cache = null;
+    if ($cache !== null) return $cache;
+    $cache = false;
+    if (!is_singular('product') || !function_exists('wc_get_product')) return false;
+    $p = wc_get_product(get_the_ID());
+    if (!$p) return false;
+    $name = trim(wp_strip_all_tags($p->get_name()));
+    $sku  = trim((string) $p->get_sku());
+    if ($sku !== '') {
+        $qual = 'арт. ' . $sku;
+    } else {
+        $qual  = '';
+        $terms = get_the_terms($p->get_id(), 'product_cat');
+        if ($terms && !is_wp_error($terms)) $qual = $terms[0]->name;
+        if ($qual === '') $qual = '№' . $p->get_id();
+    }
+    $cache = array('id' => $p->get_id(), 'name' => $name, 'sku' => $sku, 'qual' => $qual);
+    return $cache;
+}
+function kd_seo_product_title_str() {
+    $b = kd_seo_product_bits();
+    return $b ? sprintf('Купить %s (%s) — КД Групп', $b['name'], $b['qual']) : '';
+}
+function kd_seo_product_desc_str() {
+    $b = kd_seo_product_bits();
+    if (!$b) return '';
+    $art = ($b['sku'] !== '') ? sprintf(' (артикул %s)', $b['sku']) : '';
+    return sprintf('%s%s — цена по запросу, отгрузка по России. Запчасти для сельхозтехники GRIMME, ROPA, Spudnik, MEDO. КД Групп, тел. 8 800 505 72 32.', $b['name'], $art);
+}
+add_filter('wpseo_title', function ($title) {
+    $b = kd_seo_product_bits();
+    if (!$b) return $title;
+    if (trim((string) get_post_meta($b['id'], '_yoast_wpseo_title', true)) !== '') return $title;
+    $t = kd_seo_product_title_str();
+    return $t !== '' ? $t : $title;
+}, 20);
+add_filter('wpseo_metadesc', function ($desc) {
+    $b = kd_seo_product_bits();
+    if (!$b) return $desc;
+    if (trim((string) get_post_meta($b['id'], '_yoast_wpseo_metadesc', true)) !== '') return $desc;
+    $d = kd_seo_product_desc_str();
+    return $d !== '' ? $d : $desc;
+}, 20);
+/* og — для соцсетей и AI (та же уникальная мета) */
+add_filter('wpseo_opengraph_title', function ($t) {
+    $s = kd_seo_product_title_str();
+    return $s !== '' ? $s : $t;
+}, 20);
+add_filter('wpseo_opengraph_desc', function ($d) {
+    $s = kd_seo_product_desc_str();
+    return $s !== '' ? $s : $d;
+}, 20);
