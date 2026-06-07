@@ -207,3 +207,7 @@ body.single-post h1.entry-title{display:none!important}
 .kd-blog .prose blockquote{quotes:none}
 /* статья: убрать дату темы над подвалом (она не нужна, у нас своя в шапке статьи) */
 body.single-post .entry-date{display:none!important}
+
+/* статья: зелёный заголовок вплотную под шапку — убрать белый зазор сверху.
+   тянем блок вверх под фикс-шапку и компенсируем padding-ом, контент не двигается. */
+.kd-blog--single .article-head{margin-top:-64px;padding-top:64px}
