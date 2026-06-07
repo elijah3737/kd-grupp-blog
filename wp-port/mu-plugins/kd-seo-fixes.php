@@ -67,3 +67,45 @@ add_filter('wpseo_robots', function ($robots) { // совместимость с
 add_filter('wpseo_sitemap_exclude_post_type', function ($excluded, $post_type) {
     return ($post_type === 'catalog') ? true : $excluded;
 }, 10, 2);
+
+/* ===== #1 — корректная Product-схема (заменяет WPCode-сниппет 184940).
+   Offer выводим ТОЛЬКО при наличии цены — иначе валидный Product без offers
+   («цена по запросу»), без ошибки «Missing field price» в Search Console.
+   Сниппет 184940 нужно деактивировать в WPCode, чтобы не было дубля. ===== */
+add_action('wp_footer', function () {
+    if (!is_singular('product') || !function_exists('wc_get_product')) return;
+    $product = wc_get_product(get_the_ID());
+    if (!$product) return;
+
+    $schema = array(
+        '@context' => 'https://schema.org/',
+        '@type'    => 'Product',
+        'name'     => $product->get_name(),
+        'url'      => get_permalink($product->get_id()),
+    );
+    $sku = $product->get_sku();
+    if ($sku) $schema['sku'] = $sku;
+
+    $desc = $product->get_short_description() ?: $product->get_description();
+    $desc = trim(wp_strip_all_tags(strip_shortcodes((string) $desc)));
+    if ($desc) $schema['description'] = function_exists('mb_substr') ? mb_substr($desc, 0, 500) : substr($desc, 0, 500);
+
+    $img = wp_get_attachment_url($product->get_image_id());
+    if ($img) $schema['image'] = $img;
+
+    $price = $product->get_price();
+    if ($price !== '' && $price !== null && (float) $price > 0) {
+        $schema['offers'] = array(
+            '@type'         => 'Offer',
+            'priceCurrency' => get_woocommerce_currency(),
+            'price'         => (string) wc_get_price_to_display($product),
+            'availability'  => $product->is_in_stock() ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            'url'           => get_permalink($product->get_id()),
+            'seller'        => array('@type' => 'Organization', 'name' => 'КД Групп'),
+        );
+    }
+
+    echo '<script type="application/ld+json">'
+        . wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        . '</script>' . "\n";
+}, 20);
