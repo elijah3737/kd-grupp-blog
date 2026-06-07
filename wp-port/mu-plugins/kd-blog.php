@@ -186,3 +186,14 @@ function kd_blog_assets(){
   }
 }
 add_action('wp_enqueue_scripts', 'kd_blog_assets', 20);
+
+/* ===== Убрать дубль H1 на блоговых статьях: родной заголовок Impreza (h1.entry-title).
+   Наш H1 в article-head имеет class="reveal …" и не затрагивается. Скоуп — только блоговые записи. ===== */
+function kd_strip_impreza_h1($html){
+    return preg_replace('#<h1\b[^>]*\bclass="[^"]*\bentry-title\b[^"]*"[^>]*>.*?</h1>#is', '', $html, 1);
+}
+add_action('template_redirect', function(){
+    if (is_singular('post') && function_exists('kd_is_blog_post') && kd_is_blog_post()) {
+        ob_start('kd_strip_impreza_h1');
+    }
+}, 11);
