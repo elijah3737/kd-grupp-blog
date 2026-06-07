@@ -55,12 +55,19 @@ add_filter('wpseo_schema_organization', function ($data) {
 function kd_seo_is_legacy_catalog() {
     return (is_singular('catalog') || is_post_type_archive('catalog'));
 }
+/* ===== #13 — тонкие архивы pa_model («запчасти по модели») с <3 товаров: noindex.
+   Динамически — пустые/тонкие модели вон из индекса, живые (>=3) остаются. ===== */
+function kd_seo_is_thin_model() {
+    if (!is_tax('pa_model-sh-tehniki')) return false;
+    $t = get_queried_object();
+    return ($t instanceof WP_Term && (int) $t->count < 3);
+}
 add_filter('wpseo_robots_array', function ($robots) {
-    if (kd_seo_is_legacy_catalog()) { $robots['index'] = 'noindex'; }
+    if (kd_seo_is_legacy_catalog() || kd_seo_is_thin_model()) { $robots['index'] = 'noindex'; }
     return $robots;
 });
 add_filter('wpseo_robots', function ($robots) { // совместимость со старым Yoast
-    if (kd_seo_is_legacy_catalog()) return 'noindex, follow';
+    if (kd_seo_is_legacy_catalog() || kd_seo_is_thin_model()) return 'noindex, follow';
     return $robots;
 });
 /* и вон из карты сайта Yoast */
