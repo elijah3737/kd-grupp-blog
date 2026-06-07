@@ -30,7 +30,6 @@ $featured = $ids ? array_shift($ids) : 0;
 
   <section class="page-head">
     <div class="container">
-      <div class="eyebrow reveal d1">Новости и блог</div>
       <h1 class="reveal d2">Новости компании, кейсы и экспертиза по сельхозтехнике</h1>
       <p class="reveal d3">Производство транспортёров MEDO, восстановление узлов, поставки запчастей и обслуживание картофеле- и свеклоуборочной техники.</p>
     </div>

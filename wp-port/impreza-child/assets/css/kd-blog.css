@@ -64,7 +64,7 @@
     repeating-linear-gradient(135deg,rgba(255,255,255,.045) 0 2px,transparent 2px 26px);
   pointer-events:none;
 }
-.kd-blog .page-head .container{position:relative;padding:34px 24px 38px}
+.kd-blog .page-head .container{position:relative;padding:22px 24px 26px}
 .kd-blog .page-head .eyebrow{font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--green-accent);margin-bottom:10px}
 .kd-blog .page-head h1{font-size:clamp(26px,3.4vw,40px);color:#fff;max-width:840px;letter-spacing:-.02em;text-align:left}
 .kd-blog .page-head p{margin-top:12px;max-width:640px;font-size:16px;opacity:.92;line-height:1.5}
@@ -201,3 +201,9 @@ body.single-post h1.entry-title{display:none!important}
 .kd-blog .page-head{padding-top:161px}
 @media(max-width:991.98px){.kd-blog .page-head{padding-top:120px}}
 @media(max-width:600px){.kd-blog .page-head{padding-top:100px}}
+
+/* статья: декоративная кавычка темы налезала на текст — убираем (на GitHub её нет) */
+.kd-blog .prose blockquote::before{content:none!important;display:none!important}
+.kd-blog .prose blockquote{quotes:none}
+/* статья: убрать дату темы над подвалом (она не нужна, у нас своя в шапке статьи) */
+body.single-post .entry-date{display:none!important}
