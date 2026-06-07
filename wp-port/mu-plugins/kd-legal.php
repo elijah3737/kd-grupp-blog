@@ -20,8 +20,11 @@ add_action('wp_footer', function () {
 #kd-cookie a{color:#286e4c;text-decoration:underline}
 #kd-cookie .kd-cc-btn{flex:0 0 auto;background:#286e4c;color:#fff;border:0;border-radius:8px;padding:11px 28px;font-size:14px;font-weight:600;cursor:pointer;line-height:1.2}
 #kd-cookie .kd-cc-btn:hover{background:#225e41}
-.kd-footer-policy{margin:10px 0 0;font-size:13px;opacity:.9;text-align:center}
+.footer .footer__bottom{align-items:center;flex-wrap:wrap;gap:6px 16px}
+.kd-footer-policy{margin:0;font-size:13px;opacity:.9}
 .kd-footer-policy a{color:inherit;text-decoration:underline}
+.kd-footer-policy--block{width:100%;margin-top:8px;text-align:center}
+footer.footer{padding-bottom:20px}
 @media(max-width:600px){#kd-cookie .kd-cc-btn{flex:1 1 100%}}
 </style>
 <div id="kd-cookie" role="dialog" aria-label="Уведомление об использовании файлов cookie">
@@ -41,11 +44,12 @@ add_action('wp_footer', function () {
     if(a)a.addEventListener('click',function(){sc('kd_cookie_consent','1',365);b.classList.remove('kd-show');});
    }
   }
-  if(!document.querySelector('.kd-footer-policy') && !document.querySelector('.l-footer a[href*="politika-konfidencialnosti"], footer a[href*="politika-konfidencialnosti"]')){
-   var f=document.querySelector('.l-footer')||document.querySelector('footer.l-footer')||document.querySelector('footer')||document.querySelector('.footer');
-   if(f){var w=document.createElement('div');w.className='kd-footer-policy';
-    w.innerHTML='<a href="<?php echo $url; ?>">Политика конфиденциальности</a>';
-    f.appendChild(w);}
+  if(!document.querySelector('.kd-footer-policy') && !document.querySelector('.footer__bottom a[href*="politika-konfidencialnosti"], footer a[href*="politika-konfidencialnosti"]')){
+   var w=document.createElement('div');w.className='kd-footer-policy';
+   w.innerHTML='<a href="<?php echo $url; ?>">Политика конфиденциальности</a>';
+   var fb=document.querySelector('.footer__bottom');
+   if(fb){var d=fb.querySelector('.footer__designer'); if(d){fb.insertBefore(w,d);}else{fb.appendChild(w);}}
+   else{var f=document.querySelector('.l-footer')||document.querySelector('footer'); if(f){w.className='kd-footer-policy kd-footer-policy--block';f.appendChild(w);}}
   }
  });
 })();
