@@ -116,3 +116,49 @@ add_action('wp_footer', function () {
         . wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
         . '</script>' . "\n";
 }, 20);
+
+/* ============================================================
+ * PageSpeed-фиксы (аудит 07.06.2026): шрифт, контраст, a11y
+ * ============================================================ */
+
+/* A4 — Google Fonts: display=block -> swap (убираем FOIT, текст виден сразу) */
+add_filter('style_loader_src', function ($src) {
+    if (is_string($src) && strpos($src, 'fonts.googleapis.com') !== false && strpos($src, 'display=block') !== false) {
+        $src = str_replace('display=block', 'display=swap', $src);
+    }
+    return $src;
+}, 20);
+
+/* A1 + B4 — инлайн-CSS: не искажать фото слайдера + контраст бренд-зелёного до AA */
+add_action('wp_head', function () { ?>
+<style id="kd-ps-css">
+.slider img.attachment-large{object-fit:cover}
+.header__link.active{color:#286e4c!important}
+.footer__btn,.footer__btn.button--border{color:#286e4c!important}
+</style>
+<?php }, 6);
+
+/* B1-B3 — a11y: aria-label кнопок/ссылок-иконок/CTA + alt декор-картинок (JS, тему не трогаем) */
+add_action('wp_footer', function () { ?>
+<script id="kd-a11y">
+(function(){function L(e,t){if(e&&!e.getAttribute('aria-label')&&!e.getAttribute('title')&&!(e.textContent||'').trim())e.setAttribute('aria-label',t);}
+document.addEventListener('DOMContentLoaded',function(){
+ document.querySelectorAll('a').forEach(function(a){
+  if(a.getAttribute('aria-label')||a.getAttribute('title'))return;
+  var t=(a.textContent||'').trim(),im=a.querySelector('img[alt]');
+  if(t||(im&&(im.getAttribute('alt')||'').trim()))return;
+  var h=(a.getAttribute('href')||'').toLowerCase(),s=a.getAttribute('data-src')||'',c=a.className||'',l='';
+  if(h.indexOf('vk.com')>-1)l='ВКонтакте';else if(h.indexOf('avito')>-1)l='Авито';
+  else if(h.indexOf('t.me')>-1||h.indexOf('telegram')>-1)l='Telegram';
+  else if(h.indexOf('wa.me')>-1||h.indexOf('whatsapp')>-1)l='WhatsApp';
+  else if(h.indexOf('mailto:')>-1)l='Эл. почта';else if(h.indexOf('tel:')>-1)l='Позвонить';
+  else if(s.indexOf('modal_order')>-1||c.indexOf('benefit__content')>-1||c.indexOf('footer__btn')>-1)l='Оставить заявку';
+  else if(a.querySelector('svg,img,i'))l='Ссылка';
+  if(l)a.setAttribute('aria-label',l);
+ });
+ L(document.querySelector('.burger'),'Меню');L(document.querySelector('#searchsubmit'),'Искать');
+ document.querySelectorAll('button').forEach(function(b){if(!b.getAttribute('aria-label')&&!(b.textContent||'').trim()&&!b.getAttribute('title'))b.setAttribute('aria-label','Кнопка');});
+ document.querySelectorAll('img:not([alt])').forEach(function(i){i.setAttribute('alt','');i.setAttribute('role','presentation');});
+});})();
+</script>
+<?php }, 20);
