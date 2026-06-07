@@ -20,8 +20,9 @@ add_action('wp_footer', function () {
 #kd-cookie a{color:#286e4c;text-decoration:underline}
 #kd-cookie .kd-cc-btn{flex:0 0 auto;background:#286e4c;color:#fff;border:0;border-radius:8px;padding:11px 28px;font-size:14px;font-weight:600;cursor:pointer;line-height:1.2}
 #kd-cookie .kd-cc-btn:hover{background:#225e41}
-.footer .footer__bottom{align-items:center;flex-wrap:wrap;gap:6px 16px}
-.kd-footer-policy{margin:0;font-size:13px;opacity:.9}
+.footer .footer__bottom{align-items:center;flex-wrap:wrap;gap:4px 16px}
+.footer .footer__bottom .footer__copy,.footer .footer__bottom .footer__designer{margin:0 !important}
+.kd-footer-policy{margin:0;font-size:14px;line-height:1.2;opacity:.9}
 .kd-footer-policy a{color:inherit;text-decoration:underline}
 .kd-footer-policy--block{width:100%;margin-top:8px;text-align:center}
 footer.footer{padding-bottom:20px}
